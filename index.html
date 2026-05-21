@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows 11 Desktop</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body{
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+
+    /* hình nền windows 11 */
+    background:url('https://4kwallpapers.com/images/walls/thumbs_3t/11991.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+/* ===== DESKTOP ===== */
+
+.desktop{
+    width:100%;
+    height:calc(100vh - 55px);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* icon */
+
+.icon{
+    width:90px;
+    text-align:center;
+    color:white;
+    cursor:pointer;
+    padding:10px;
+    border-radius:10px;
+    transition:0.2s;
+}
+
+.icon:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.icon i{
+    font-size:45px;
+    margin-bottom:8px;
+}
+
+.icon p{
+    font-size:14px;
+    word-break:break-word;
+}
+
+/* ===== TASKBAR ===== */
+
+.taskbar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:55px;
+
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+
+    border-top:1px solid rgba(255,255,255,0.2);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    z-index:999;
+}
+
+/* center icons */
+
+.task-icons{
+    display:flex;
+    gap:12px;
+}
+
+.task-icon{
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    font-size:20px;
+
+    transition:0.2s;
+    cursor:pointer;
+}
+
+.task-icon:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+/* time */
+
+.clock{
+    position:absolute;
+    right:20px;
+    color:white;
+    font-size:14px;
+    text-align:center;
+}
+
+/* start menu */
+
+.start-menu{
+    position:fixed;
+    bottom:70px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:600px;
+    height:500px;
+
+    background:rgba(30,30,30,0.75);
+    backdrop-filter:blur(25px);
+
+    border-radius:25px;
+
+    display:none;
+
+    padding:20px;
+
+    color:white;
+}
+
+.start-menu.active{
+    display:block;
+}
+
+.start-title{
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.apps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.app{
+    background:rgba(255,255,255,0.08);
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.app:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.app i{
+    font-size:35px;
+    margin-bottom:10px;
+}
+</style>
+</head>
+<body>
+
+<!-- DESKTOP -->
+
+<div class="desktop">
+
+    <div class="icon"
+    onclick="window.location.href='090_lab7A.html'">
+        <i class="fa-solid fa-file-code"></i>
+        <p>090_lab7A</p>
+    </div>
+
+    <div class="icon"
+    onclick="window.location.href='090_lab7B.html'">
+        <i class="fa-solid fa-file-code"></i>
+        <p>090_lab7B</p>
+    </div>
+
+    <div class="icon"
+    onclick="window.location.href='090_lab7C.html'">
+        <i class="fa-solid fa-file-code"></i>
+        <p>090_lab7C</p>
+    </div>
+
+</div>
+
+<!-- START MENU -->
+
+<div class="start-menu" id="startMenu">
+
+    <div class="start-title">
+        Pinned
+    </div>
+
+    <div class="apps">
+
+        <div class="app"
+        onclick="window.location.href='090_lab7A.html'">
+            <i class="fa-solid fa-file"></i>
+            <p>Lab 7A</p>
+        </div>
+
+        <div class="app"
+        onclick="window.location.href='090_lab7B.html'">
+            <i class="fa-solid fa-file"></i>
+            <p>Lab 7B</p>
+        </div>
+
+        <div class="app"
+        onclick="window.location.href='090_lab7C.html'">
+            <i class="fa-solid fa-file"></i>
+            <p>Lab 7C</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TASKBAR -->
+
+<div class="taskbar">
+
+    <div class="task-icons">
+
+        <div class="task-icon" id="startBtn">
+            <i class="fa-brands fa-windows"></i>
+        </div>
+
+        <div class="task-icon">
+            <i class="fa-solid fa-folder"></i>
+        </div>
+
+        <div class="task-icon">
+            <i class="fa-brands fa-edge"></i>
+        </div>
+
+    </div>
+
+    <div class="clock" id="clock"></div>
+
+</div>
+
+<script>
+
+/* START MENU */
+
+const startBtn = document.getElementById("startBtn");
+const startMenu = document.getElementById("startMenu");
+
+startBtn.onclick = () => {
+    startMenu.classList.toggle("active");
+};
+
+/* CLOCK */
+
+function updateClock(){
+
+    const now = new Date();
+
+    const time =
+        now.toLocaleTimeString('vi-VN',{
+            hour:'2-digit',
+            minute:'2-digit'
+        });
+
+    const date =
+        now.toLocaleDateString('vi-VN');
+
+    document.getElementById("clock").innerHTML =
+        `${time}<br>${date}`;
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+</script>
+
+</body>
+</html>
