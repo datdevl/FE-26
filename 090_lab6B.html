@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIỎ HÀNG SHOPPING</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        body{
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        .cart{
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .cart-header{
+            background: linear-gradient(45deg,#ff5722,#ff9800);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .table-head,
+        .item{
+            display: grid;
+            grid-template-columns: 90px 2fr 1fr 1fr 1fr 120px;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+        }
+
+        .table-head{
+            background: #fafafa;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ddd;
+            color: #333;
+        }
+
+        .item{
+            border-bottom: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .item:hover{
+            background: #fff8f3;
+        }
+
+        .img-sp{
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .product-name{
+            font-size: 17px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #222;
+        }
+
+        .price,
+        .subtotal{
+            color: #e53935;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .qty-box{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn{
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #ff9800;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .qty-btn:hover{
+            background: #f57c00;
+        }
+
+        .qty-input{
+            width: 50px;
+            height: 35px;
+            text-align: center;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-delete{
+            background: crimson;
+            color: white;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-delete:hover{
+            background: darkred;
+        }
+
+        .summary{
+            padding: 25px;
+            background: #fafafa;
+        }
+
+        .summary-line{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .summary-line b{
+            text-transform: uppercase;
+        }
+
+        .grand-total{
+            color: red;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .checkout{
+            margin-top: 20px;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            background: linear-gradient(45deg,#ff5722,#ff9800);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .checkout:hover{
+            transform: scale(1.02);
+        }
+
+        .empty{
+            text-align: center;
+            padding: 40px;
+            font-size: 22px;
+            font-weight: bold;
+            color: gray;
+            display: none;
+        }
+
+        @media(max-width:768px){
+
+            .table-head{
+                display: none;
+            }
+
+            .item{
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .qty-box{
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="cart">
+
+    <div class="cart-header">
+        🛒 GIỎ HÀNG
+    </div>
+
+    <div class="table-head">
+        <div>ẢNH</div>
+        <div>SẢN PHẨM</div>
+        <div>ĐƠN GIÁ</div>
+        <div>SỐ LƯỢNG</div>
+        <div>THÀNH TIỀN</div>
+        <div>THAO TÁC</div>
+    </div>
+
+    <!-- ITEM 1 -->
+    <div class="item" data-price="150000">
+
+        <div>
+            <img class="img-sp"
+            src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=200">
+        </div>
+
+        <div class="product-name">
+            BÀN PHÍM CƠ RGB
+        </div>
+
+        <div class="price">
+            150.000đ
+        </div>
+
+        <div class="qty-box">
+            <button class="qty-btn btn-down">-</button>
+
+            <input type="text" class="qty-input" value="1" readonly>
+
+            <button class="qty-btn btn-up">+</button>
+        </div>
+
+        <div>
+            <span class="subtotal">150000</span>đ
+        </div>
+
+        <div>
+            <button class="btn-delete">XÓA</button>
+        </div>
+
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="item" data-price="250000">
+
+        <div>
+            <img class="img-sp"
+            src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=200">
+        </div>
+
+        <div class="product-name">
+            CHUỘT GAMING PRO
+        </div>
+
+        <div class="price">
+            250.000đ
+        </div>
+
+        <div class="qty-box">
+            <button class="qty-btn btn-down">-</button>
+
+            <input type="text" class="qty-input" value="1" readonly>
+
+            <button class="qty-btn btn-up">+</button>
+        </div>
+
+        <div>
+            <span class="subtotal">250000</span>đ
+        </div>
+
+        <div>
+            <button class="btn-delete">XÓA</button>
+        </div>
+
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="item" data-price="99000">
+
+        <div>
+            <img class="img-sp"
+            src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=200">
+        </div>
+
+        <div class="product-name">
+            TAI NGHE LED
+        </div>
+
+        <div class="price">
+            99.000đ
+        </div>
+
+        <div class="qty-box">
+            <button class="qty-btn btn-down">-</button>
+
+            <input type="text" class="qty-input" value="1" readonly>
+
+            <button class="qty-btn btn-up">+</button>
+        </div>
+
+        <div>
+            <span class="subtotal">99000</span>đ
+        </div>
+
+        <div>
+            <button class="btn-delete">XÓA</button>
+        </div>
+
+    </div>
+
+    <div class="empty">
+        🛒 GIỎ HÀNG ĐANG TRỐNG
+    </div>
+
+    <!-- TỔNG -->
+    <div class="summary">
+
+        <div class="summary-line">
+            <b>TỔNG SẢN PHẨM:</b>
+            <span id="total-qty">3</span>
+        </div>
+
+        <div class="summary-line">
+            <b>TẠM TÍNH:</b>
+            <span id="temp-total">499000đ</span>
+        </div>
+
+        <div class="summary-line">
+            <b>PHÍ VẬN CHUYỂN:</b>
+            <span>30.000đ</span>
+        </div>
+
+        <div class="summary-line grand-total">
+            <b>TỔNG THANH TOÁN:</b>
+            <span id="grand-total">529000đ</span>
+        </div>
+
+        <button class="checkout">
+            THANH TOÁN NGAY
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+$(document).ready(function(){
+
+    // FORMAT TIỀN
+    function formatTien(number){
+        return number.toLocaleString('vi-VN');
+    }
+
+    // TÍNH TỔNG
+    function tinhTongTien(){
+
+        let tongTien = 0;
+        let tongSoLuong = 0;
+
+        $('.item').each(function(){
+
+            let gia = parseInt($(this).attr('data-price'));
+
+            let soLuong =
+            parseInt($(this).find('.qty-input').val());
+
+            let thanhTien = gia * soLuong;
+
+            tongTien += thanhTien;
+
+            tongSoLuong += soLuong;
+
+            $(this).find('.subtotal')
+            .text(formatTien(thanhTien));
+
+        });
+
+        $('#temp-total')
+        .text(formatTien(tongTien) + 'đ');
+
+        let tongThanhToan = tongTien + 30000;
+
+        $('#grand-total')
+        .text(formatTien(tongThanhToan) + 'đ');
+
+        $('#total-qty').text(tongSoLuong);
+
+        // GIỎ TRỐNG
+        if($('.item').length == 0){
+
+            $('.empty').show();
+
+            $('.summary').hide();
+
+            $('.table-head').hide();
+        }
+    }
+
+    // TĂNG
+    $(document).on('click','.btn-up',function(){
+
+        let input = $(this).siblings('.qty-input');
+
+        let value = parseInt(input.val());
+
+        input.val(value + 1);
+
+        tinhTongTien();
+    });
+
+    // GIẢM
+    $(document).on('click','.btn-down',function(){
+
+        let input = $(this).siblings('.qty-input');
+
+        let value = parseInt(input.val());
+
+        if(value > 1){
+
+            input.val(value - 1);
+
+            tinhTongTien();
+        }
+    });
+
+    // XÓA
+    $(document).on('click','.btn-delete',function(){
+
+        $(this).closest('.item').fadeOut(300,function(){
+
+            $(this).remove();
+
+            tinhTongTien();
+
+        });
+
+    });
+
+    // KHỞI TẠO
+    tinhTongTien();
+
+});
+
+</script>
+
+</body>
+</html>

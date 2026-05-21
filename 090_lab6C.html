@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 18 - Quản lý thành viên</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: auto; }
+        .input-box, .search-box { margin-bottom: 15px; display: flex; gap: 10px; }
+        input { flex: 1; padding: 8px; }
+        ul { list-style: none; padding: 0; }
+        li { display: flex; justify-content: space-between; padding: 10px; border: 1px solid #ccc; margin-bottom: 5px; }
+        .btn-group button { margin-left: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quản Lý Thành Viên</h1>
+        
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Tìm kiếm thành viên...">
+        </div>
+
+        <div class="input-box">
+            <input type="text" id="memberInput" placeholder="Nhập tên thành viên">
+            <button class="add-btn">Thêm mới</button>
+        </div>
+
+        <ul id="memberList"></ul>
+    </div>
+
+    <script>
+        function capNhatStt() {
+            $("#memberList li").each(function(viTri) {
+                $(this).find(".stt").text(viTri + 1);
+            });
+        }
+
+        $(".add-btn").click(function() {
+            let tenThanhVien = $("#memberInput").val().trim();
+            if(tenThanhVien == "") {
+                alert("Vui lòng nhập tên!");
+                return;
+            }
+            // Tao chuoi html de chen vao danh sach bang append
+            let theLiMoi = `
+                <li>
+                    <span>
+                        <span class="stt"></span>. 
+                        <span class="member-name">${tenThanhVien}</span>
+                    </span>
+                    <div class="btn-group">
+                        <button class="edit-btn">Sửa</button>
+                        <button class="delete-btn">Xóa</button>
+                    </div>
+                </li>
+            `;
+            $("#memberList").append(theLiMoi);
+            $("#memberInput").val("");
+            capNhatStt();
+        });
+
+        // Xử lý xoa phan tu bang event delegation (.on)
+        $("#memberList").on("click", ".delete-btn", function() {
+            $(this).closest("li").remove();
+            capNhatStt();
+        });
+
+        $("#memberList").on("click", ".edit-btn", function() {
+            let tenCu = $(this).closest("li").find(".member-name").text();
+            let tenMoi = prompt("Nhập tên mới:", tenCu);
+            if(tenMoi != null && tenMoi.trim() != "") {
+                $(this).closest("li").find(".member-name").text(tenMoi);
+            }
+        });
+
+        // Loc danh sach theo tu khoa tim kiem
+        $("#search").keyup(function() {
+            let tuKhoa = $(this).val().toLowerCase();
+            $("#memberList li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(tuKhoa) > -1);
+            });
+        });
+    </script>
+
+</body>
+</html>
