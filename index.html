@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Windows 11 Desktop</title>
+
+<!-- Favicon -->
+<link rel="icon"
+href="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2021.svg">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
+
+:root{
+    --glass:rgba(255,255,255,0.10);
+    --glass-hover:rgba(255,255,255,0.18);
+    --border:rgba(255,255,255,0.15);
+    --text:white;
+}
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: "Segoe UI", sans-serif;
+    font-family:"Segoe UI",sans-serif;
+    user-select:none;
 }
 
 body{
@@ -21,62 +35,93 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* hình nền windows 11 */
     background:url('https://4kwallpapers.com/images/walls/thumbs_3t/11991.jpg');
     background-size:cover;
     background-position:center;
+
+    color:var(--text);
 }
 
-/* ===== DESKTOP ===== */
+/* ======================
+   DESKTOP
+====================== */
 
 .desktop{
     width:100%;
     height:calc(100vh - 55px);
+
     padding:20px;
+
     display:flex;
     flex-direction:column;
-    gap:20px;
+    flex-wrap:wrap;
+    align-content:flex-start;
+
+    gap:12px;
 }
 
-/* icon */
+/* ======================
+   ICON
+====================== */
 
 .icon{
-    width:90px;
+    width:110px;
+
+    padding:12px 8px;
+
+    border-radius:16px;
+
     text-align:center;
-    color:white;
+
     cursor:pointer;
-    padding:10px;
-    border-radius:10px;
-    transition:0.2s;
+
+    transition:0.25s;
+
+    position:relative;
+
+    animation:fadeIn 0.4s ease;
 }
 
 .icon:hover{
-    background:rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.12);
+    transform:translateY(-3px) scale(1.03);
+}
+
+.icon.active{
+    background:rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.2);
 }
 
 .icon i{
-    font-size:45px;
-    margin-bottom:8px;
+    font-size:58px;
+
+    margin-bottom:10px;
+
+    text-shadow:0 4px 15px rgba(0,0,0,0.4);
 }
 
 .icon p{
     font-size:14px;
-    word-break:break-word;
+    line-height:1.4;
 }
 
-/* ===== TASKBAR ===== */
+/* ======================
+   TASKBAR
+====================== */
 
 .taskbar{
     position:fixed;
     bottom:0;
     left:0;
+
     width:100%;
     height:55px;
 
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(20px);
+    background:rgba(20,20,20,0.45);
 
-    border-top:1px solid rgba(255,255,255,0.2);
+    backdrop-filter:blur(25px);
+
+    border-top:1px solid var(--border);
 
     display:flex;
     align-items:center;
@@ -85,166 +130,282 @@ body{
     z-index:999;
 }
 
-/* center icons */
-
 .task-icons{
     display:flex;
-    gap:12px;
+    gap:10px;
 }
 
 .task-icon{
-    width:42px;
-    height:42px;
+    width:44px;
+    height:44px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
     color:white;
+
     font-size:20px;
 
-    transition:0.2s;
     cursor:pointer;
+
+    transition:0.2s;
+
+    position:relative;
 }
 
 .task-icon:hover{
-    background:rgba(255,255,255,0.15);
+    background:var(--glass-hover);
+    transform:translateY(-2px);
 }
 
-/* time */
+.task-icon.active::after{
+    content:"";
+
+    position:absolute;
+    bottom:3px;
+
+    width:18px;
+    height:3px;
+
+    border-radius:20px;
+
+    background:white;
+}
+
+/* ======================
+   CLOCK
+====================== */
 
 .clock{
     position:absolute;
-    right:20px;
-    color:white;
-    font-size:14px;
+    right:18px;
+
     text-align:center;
+
+    font-size:13px;
+
+    line-height:1.4;
 }
 
-/* start menu */
+/* ======================
+   START MENU
+====================== */
 
 .start-menu{
     position:fixed;
-    bottom:70px;
+
+    bottom:68px;
     left:50%;
-    transform:translateX(-50%);
 
-    width:600px;
-    height:500px;
+    transform:translateX(-50%) scale(0.9);
 
-    background:rgba(30,30,30,0.75);
-    backdrop-filter:blur(25px);
+    width:700px;
+    max-width:95%;
 
-    border-radius:25px;
+    height:540px;
 
-    display:none;
+    background:rgba(30,30,30,0.72);
 
-    padding:20px;
+    backdrop-filter:blur(35px);
 
-    color:white;
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:28px;
+
+    padding:25px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.25s;
+
+    z-index:999;
 }
 
 .start-menu.active{
-    display:block;
+    opacity:1;
+    visibility:visible;
+
+    transform:translateX(-50%) scale(1);
+}
+
+.start-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
 }
 
 .start-title{
-    font-size:22px;
-    margin-bottom:20px;
+    font-size:24px;
+    font-weight:600;
+}
+
+.search-box{
+    width:260px;
+    height:42px;
+
+    background:rgba(255,255,255,0.08);
+
+    border-radius:14px;
+
+    padding:0 15px;
+
+    border:none;
+    outline:none;
+
+    color:white;
+
+    font-size:14px;
 }
 
 .apps{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(120px,1fr));
+
+    gap:18px;
 }
 
 .app{
-    background:rgba(255,255,255,0.08);
-    border-radius:15px;
+    background:rgba(255,255,255,0.06);
+
+    border-radius:18px;
+
     padding:20px;
+
     text-align:center;
+
     cursor:pointer;
-    transition:0.2s;
+
+    transition:0.25s;
 }
 
 .app:hover{
-    background:rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.14);
+    transform:translateY(-3px);
 }
 
 .app i{
-    font-size:35px;
-    margin-bottom:10px;
+    font-size:42px;
+    margin-bottom:12px;
 }
+
+.app p{
+    font-size:14px;
+}
+
+/* ======================
+   RIGHT CLICK MENU
+====================== */
+
+.context-menu{
+    position:fixed;
+
+    width:220px;
+
+    background:rgba(40,40,40,0.95);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:14px;
+
+    padding:8px;
+
+    display:none;
+
+    z-index:9999;
+}
+
+.context-menu button{
+    width:100%;
+
+    background:none;
+    border:none;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.context-menu button:hover{
+    background:rgba(255,255,255,0.1);
+}
+
+/* ======================
+   ANIMATION
+====================== */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
 </style>
 </head>
 <body>
 
-<!-- DESKTOP -->
+<!-- ======================
+     DESKTOP
+====================== -->
 
-<div class="desktop">
+<div class="desktop" id="desktop"></div>
 
-    <div class="icon"
-    onclick="window.location.href='090_lab7A.html'">
-        <i class="fa-solid fa-file-code"></i>
-        <p>090_lab7A</p>
-    </div>
-
-    <div class="icon"
-    onclick="window.location.href='090_lab7B.html'">
-        <i class="fa-solid fa-file-code"></i>
-        <p>090_lab7B</p>
-    </div>
-
-    <div class="icon"
-    onclick="window.location.href='090_lab7C.html'">
-        <i class="fa-solid fa-file-code"></i>
-        <p>090_lab7C</p>
-    </div>
-
-</div>
-
-<!-- START MENU -->
+<!-- ======================
+     START MENU
+====================== -->
 
 <div class="start-menu" id="startMenu">
 
-    <div class="start-title">
-        Pinned
+    <div class="start-top">
+
+        <div class="start-title">
+            Applications
+        </div>
+
+        <input type="text"
+        class="search-box"
+        id="searchBox"
+        placeholder="Tìm kiếm file...">
+
     </div>
 
-    <div class="apps">
-
-        <div class="app"
-        onclick="window.location.href='090_lab7A.html'">
-            <i class="fa-solid fa-file"></i>
-            <p>Lab 7A</p>
-        </div>
-
-        <div class="app"
-        onclick="window.location.href='090_lab7B.html'">
-            <i class="fa-solid fa-file"></i>
-            <p>Lab 7B</p>
-        </div>
-
-        <div class="app"
-        onclick="window.location.href='090_lab7C.html'">
-            <i class="fa-solid fa-file"></i>
-            <p>Lab 7C</p>
-        </div>
-
-    </div>
+    <div class="apps" id="apps"></div>
 
 </div>
 
-<!-- TASKBAR -->
+<!-- ======================
+     TASKBAR
+====================== -->
 
 <div class="taskbar">
 
     <div class="task-icons">
 
-        <div class="task-icon" id="startBtn">
+        <div class="task-icon active"
+        id="startBtn">
             <i class="fa-brands fa-windows"></i>
         </div>
 
@@ -256,45 +417,248 @@ body{
             <i class="fa-brands fa-edge"></i>
         </div>
 
+        <div class="task-icon">
+            <i class="fa-solid fa-store"></i>
+        </div>
+
     </div>
 
     <div class="clock" id="clock"></div>
 
 </div>
 
+<!-- ======================
+     RIGHT CLICK MENU
+====================== -->
+
+<div class="context-menu" id="contextMenu">
+
+    <button onclick="location.reload()">
+        🔄 Refresh
+    </button>
+
+    <button onclick="toggleWallpaper()">
+        🖼️ Change Wallpaper
+    </button>
+
+</div>
+
 <script>
 
-/* START MENU */
+/* ====================================
+   FILE LIST
+==================================== */
 
-const startBtn = document.getElementById("startBtn");
-const startMenu = document.getElementById("startMenu");
+const files = [
+
+    "090_lab7A.html",
+    "090_lab7B.html",
+    "090_lab7C.html",
+
+    "090_lab6A.html",
+    "090_lab6B.html",
+    "090_lab6C.html",
+
+    "090_lab5A.html",
+    "090_lab5B.html",
+    "090_lab5C.html",
+
+    "index.html"
+
+];
+
+/* ====================================
+   CREATE ICONS
+==================================== */
+
+const desktop = document.getElementById("desktop");
+const apps = document.getElementById("apps");
+
+function createIcons(list){
+
+    desktop.innerHTML = "";
+    apps.innerHTML = "";
+
+    list.forEach(file => {
+
+        const name =
+        file.replace(".html","");
+
+        // desktop icon
+
+        const icon =
+        document.createElement("div");
+
+        icon.className = "icon";
+
+        icon.innerHTML = `
+            <i class="fa-solid fa-file-code"></i>
+            <p>${name}</p>
+        `;
+
+        icon.onclick = () => {
+
+            document
+            .querySelectorAll(".icon")
+            .forEach(i => i.classList.remove("active"));
+
+            icon.classList.add("active");
+
+        };
+
+        icon.ondblclick = () => {
+            window.location.href = file;
+        };
+
+        desktop.appendChild(icon);
+
+        // app menu
+
+        const app =
+        document.createElement("div");
+
+        app.className = "app";
+
+        app.innerHTML = `
+            <i class="fa-solid fa-file"></i>
+            <p>${name}</p>
+        `;
+
+        app.onclick = () => {
+            window.location.href = file;
+        };
+
+        apps.appendChild(app);
+
+    });
+
+}
+
+createIcons(files);
+
+/* ====================================
+   START MENU
+==================================== */
+
+const startBtn =
+document.getElementById("startBtn");
+
+const startMenu =
+document.getElementById("startMenu");
 
 startBtn.onclick = () => {
     startMenu.classList.toggle("active");
 };
 
-/* CLOCK */
+document.addEventListener("click",e=>{
+
+    if(
+        !startMenu.contains(e.target)
+        &&
+        !startBtn.contains(e.target)
+    ){
+        startMenu.classList.remove("active");
+    }
+
+});
+
+/* ====================================
+   SEARCH
+==================================== */
+
+const searchBox =
+document.getElementById("searchBox");
+
+searchBox.addEventListener("input",()=>{
+
+    const keyword =
+    searchBox.value.toLowerCase();
+
+    const filtered =
+    files.filter(file =>
+        file.toLowerCase().includes(keyword)
+    );
+
+    createIcons(filtered);
+
+});
+
+/* ====================================
+   CLOCK
+==================================== */
 
 function updateClock(){
 
     const now = new Date();
 
     const time =
-        now.toLocaleTimeString('vi-VN',{
-            hour:'2-digit',
-            minute:'2-digit'
-        });
+    now.toLocaleTimeString('vi-VN',{
+        hour:'2-digit',
+        minute:'2-digit'
+    });
 
     const date =
-        now.toLocaleDateString('vi-VN');
+    now.toLocaleDateString('vi-VN');
 
     document.getElementById("clock").innerHTML =
-        `${time}<br>${date}`;
+    `${time}<br>${date}`;
+
 }
 
 setInterval(updateClock,1000);
 
 updateClock();
+
+/* ====================================
+   RIGHT CLICK MENU
+==================================== */
+
+const contextMenu =
+document.getElementById("contextMenu");
+
+document.addEventListener("contextmenu",e=>{
+
+    e.preventDefault();
+
+    contextMenu.style.display = "block";
+
+    contextMenu.style.left = e.pageX + "px";
+    contextMenu.style.top = e.pageY + "px";
+
+});
+
+document.addEventListener("click",()=>{
+    contextMenu.style.display = "none";
+});
+
+/* ====================================
+   WALLPAPER
+==================================== */
+
+let wallpaper = 1;
+
+function toggleWallpaper(){
+
+    wallpaper++;
+
+    if(wallpaper > 3){
+        wallpaper = 1;
+    }
+
+    const wallpapers = {
+
+        1:"https://4kwallpapers.com/images/walls/thumbs_3t/11991.jpg",
+
+        2:"https://wallpapercave.com/wp/wp8792097.jpg",
+
+        3:"https://wallpapercg.com/media/ts_orig/19840.webp"
+
+    };
+
+    document.body.style.backgroundImage =
+    `url('${wallpapers[wallpaper]}')`;
+
+}
 
 </script>
 
